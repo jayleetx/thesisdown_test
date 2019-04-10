@@ -45,6 +45,40 @@ Again, **be sure to name the final folder `index`** to knit properly. The folder
 
 The blank thesis template now lives inside of the `index` directory in your chosen file location, and contains the following files and folders.
 
+- `00--prelim.Rmd`. Acknowledgements, preface, and dedication. *NOTE* why is this (and the abstract) duplicated in the `index.Rmd`, and what's the best way to do it?
+
+- `00-abstract.Rmd`. Abstract.
+
+- `01-chap1.Rmd`. Chapter 1.
+
+- `02-chap2.Rmd`. Chapter 2. 
+
+- `03-chap3.Rmd`. Chapter 3.
+
+- `04-conclusion.Rmd`. Conclusion.
+
+- `05-appendix.Rmd`. Appendix.
+
+- `99-references.Rmd`. References, generated automatically through citations.
+
+- `_bookdown.yml`. A YAML file to define how the multiple Rmd files are combined.
+
+- `bib`. Contains a BibTeX file for citations.
+
+- `chemarr.sty`. LaTeX macro creating some extra-long arrows for chemistry reactions.
+
+- `csl`. Contains a CSL file to define the APA format of citations.
+
+- `data`. Folder for data.
+
+- `figure`. Folder for images.
+
+- `index.Rmd`. This is the "master" R Markdown file. Defines the front of the thesis: name, advisor, major, etc. Also includes the introduction. 
+
+- `reedthesis.cls`. Creates the thesis document class.
+
+- `template.tex`. LaTeX thesis template.
+
 ## Extra fun tidbits
 
 #### File path issues
