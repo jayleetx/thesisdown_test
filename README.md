@@ -149,7 +149,10 @@ is where you can troubleshoot:
 
 ## Dealing with files
 
-#### `index.Rmd`
+### `index.Rmd`
+
+  - Your introduction gets written directly into this file, under the
+    “Introduction” header.
 
   - Be sure to update the YAML header here\! Name, date, division,
     advisor, department, title, output, acknowledgements, dedication,
@@ -157,27 +160,25 @@ is where you can troubleshoot:
 
   - Double check that the files referenced for `bibliography` and `csl`
     are correct. If you change the citation format or have a differently
-    named file,
+    named file, this needs to be updated.
 
-  - `lot` and `lof` are “List of tables” and “List of figures”
-    respectively, leave this as true to match the thesis formatting
+  - `lot` and `lof` are “list of tables” and “list of figures”
+    respectively; leave these as true to match the thesis formatting
     requirements.
 
   - To include extra LaTeX packages, uncomment lines 43-44 and
     change/add packages as needed.
 
-  - Your introduction gets written directly into this file, under the
-    “Introduction” header.
-
-#### Adding, subtracting, or renaming chapters
+### Adding, subtracting, or renaming chapters
 
 By default, [`_bookdown.yml`](index/_bookdown.yml) handles the chapter
 ordering. The third line of this file (`rmd_files`) defines which files
 are combined to create the actual thesis document. You can add a chapter
 by adding it to the directory and this list, and delete one by removing
-it from the list.
+it from the list. As long as the list matches what you want to have in
+your thesis and the correct file names, all should be well.
 
-#### Appendix
+### Appendix
 
 If you have code in one of the Rmd files that breaks the visual flow of
 the thesis but should still be included, the appendix is a good place to
@@ -191,23 +192,36 @@ The code is displayed using the chunk on line 16 of
 original chunk to duplicate it here, then sets `results = 'hide'` to
 only show the code and hide the output.
 
-#### Abstract and prelim
+### Abstract and prelim
+
+You may notice that two of the included files are
+[`00-abstract.Rmd`](index/00-abstract.Rmd) and
+[`00--prelim.Rmd`](index/00--prelim.Rmd) (for acknowledgements, preface,
+and dedication), but these sections are duplicated in the YAML of
+`index.Rmd`. This doubling is mostly an artifact of an attempted edit to
+the template that was never quite finished.
+
+You can add your abstract directly to the `00-abstract.Rmd` file, and
+line 23 of `index.Rmd` will automatically include it in the document.
+For acknowledgements, dedication, and preface, yo should write directly
+into the YAML of `index.Rmd` (I wasn’t able to figure out how to add the
+file like the abstract).
 
 ## Object referencing
 
-#### In-line code
+### In-line code
 
-#### Tables and figures
+### Tables and figures
 
-#### Sections
+### Sections
 
-#### Chunks?
+### Chunks?
 
-#### Citations
+### Citations
 
 ## Extra fun tidbits
 
-#### File path issues
+### File path issues
 
 R Markdown has some non-intuitive behaviors when it comes to relative
 file names. A typical structure in R repositories is the Project (big
@@ -252,20 +266,20 @@ Possible fixes:
   - Use full absolute file paths all the time. Bad because of the same
     directory change as above (also gets tedious).
 
-#### YAML formatting
+### YAML formatting
 
 YAML (“Yet Another Markup Language”, or “YAML Ain’t Markup Language”) is
 a protocol for defining the metadata for a document: title, author,
 output format, whether there should be a table of contents, etc.
 
-#### Why does it have to be named `index`?
+### Why does it have to be named `index`?
 
 One of the formats you can knit your thesis to is GitBook, which is
 built on top of some HTML. This format is a webpage, so the “home” of
 the page needs to be called `index`. If you’re only knitting to pdf, you
 can maybe change this, but it’s best to leave it as is just in case…
 
-#### Underscore issues
+### Underscore issues
 
 A problem: R people really like underscores to separate words in object
 names (dots represent something else), but LaTeX doesn’t like
