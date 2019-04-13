@@ -12,7 +12,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-[`thesisdown`](https://github.com/ismayc/thesisdown) is the R Markdown template for Reed College's senior thesis. It's built on [`bookdown`](https://bookdown.org/yihui/bookdown/), a more general format for "authoring books and technical documents with R Markdown".
+[`thesisdown`](https://github.com/ismayc/thesisdown) is the R Markdown template for Reed College's senior thesis. It's a specific use case of [`bookdown`](https://bookdown.org/yihui/bookdown/), a more general format for "authoring books and technical documents with R Markdown". Included in `thesisdown` are templates that help you stay within Reed's [thesis formatting guidelines](http://libguides.reed.edu/c.php?g=338444&p=2278315).
+
+## Computing things to know
+
+`thesisdown` rests on a lot of different software packages and document formats. Knowing everything under the hood isn't necessary, but a general understanding of where different steps are evaluated can help troubleshoot problems you're having while using the template.
+
+- [R](https://www.r-project.org/about.html), a programming language for statistical computing.
+
+- [RStudio](https://www.rstudio.com/products/rstudio/), an [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) for working with R (technically optional, but extremely common).
+
+- [LaTeX](https://www.latex-project.org/about/), a typesetting system that gives you lots of control over text formatting, document guidelines, and citations. LaTeX follows a source-output style, where the plain-text source file (`file.tex`) is compiled into a correctly formatted output file (`file.pdf`).
+
+- [Markdown](https://www.markdownguide.org/getting-started), a way to add formatting to plain text documents that's less complicated than LaTeX (but has less functionality).
+
+- [Pandoc](https://pandoc.org/), a converter that (among other things) takes Markdown documents and converts them into PDFs with LaTeX formatting.
+
+- [R Markdown](https://bookdown.org/yihui/rmarkdown/), an R document format that mixes R code, text with Markdown formatting, LaTeX text and math snippets, and document metadata ([YAML](https://yaml.org/spec/1.2/spec.html#Introduction) header). Like LaTeX, R Markdown follows the paradigm of using a source file (`file.Rmd`) and an output file (`file.pdf`, `file.html`, `file.docx`, etc.).
+
+- [`knitr`](https://yihui.name/knitr/), an R package that helps convert R Markdown files into plain Markdown, so pandoc can convert this Markdown into a specified output file format.
+
+- [`bookdown`](https://bookdown.org/yihui/bookdown/), an R package for authoring multi-document sequences (e.g. books, theses, course notes) with R Markdown. It covers issues Markdown doesn't handle, such as automatic table numbering, table cross-referencing, and figure alignment.
+
+In general, when kntting to PDF, the steps are as follows:
+
+1. `knitr` runs the R code and converts the R Markdown file into a plain Markdown file (`file.md`).
+
+2. Pandoc converts the Markdown file into a TeX source file (`file.tex`).
+
+3. Pandoc calls the LaTeX engine to convert the source file into a pdf (`file.pdf`).
 
 ## Setup
 
@@ -105,7 +133,7 @@ R also creates some intermediate files in the knitting process, which are delete
 
 - `thesis.log`. This is the TeX log file, which will detail any errors in the LaTeX formatting after the R code is done running. The bottom of this file usually has any errors, and the line numbers it cites refers to `thesis.tex`.
 
-## Dealing with files
+## Dealing with what's in the files
 
 ### `index.Rmd`
 
@@ -121,7 +149,11 @@ R also creates some intermediate files in the knitting process, which are delete
 
 ### Adding, subtracting, or renaming chapters
 
-By default, [`_bookdown.yml`](index/_bookdown.yml) handles the chapter ordering. The third line of this file (`rmd_files`) defines which files are combined to create the actual thesis document. You can add a chapter by adding it to the directory and this list, and delete one by removing it from the list. As long as the list matches what you want to have in your thesis and the correct file names, all should be well.
+By default, [`_bookdown.yml`](index/_bookdown.yml) handles the [chapter ordering](https://bookdown.org/yihui/bookdown/usage.html). The third line of this file (`rmd_files`) defines which files are combined to create the actual thesis document. You can add a chapter by adding it to the directory and this list, and delete one by removing it from the list. As long as the list matches what you want to have in your thesis and the correct file names, all should be well.
+
+The name of each chapter (printed at the top of the chapter in the final document), with a single pound sign, must be the first non-comment line in the Rmd file, as follows:
+
+`# Literature Review`
 
 ### Appendix
 
@@ -135,9 +167,53 @@ You may notice that two of the included files are [`00-abstract.Rmd`](index/00-a
 
 You can add your abstract directly to the `00-abstract.Rmd` file, and line 23 of `index.Rmd` will automatically include it in the document. For acknowledgements, dedication, and preface, yo should write directly into the YAML of `index.Rmd` (I wasn't able to figure out how to add the file like the abstract).
 
+### References
+
+`thesisdown` will automatically insert your bibliography (from a BibTeX file) for you after all of the other writing. The file `99-references.Rmd` thus contains only two main things: a header for the references section, and a list of entried that aren't directly cited in the thesis writing.
+
+This `nocite` section is where you can insert citation keys for sources that aren't directly cited in-line during your thesis, but still need to appear in the bibliography. This is aprticularly useful for R packages used, among other things.
+
+## Formatting
+
+### Basic Markdown
+
+[More on this](https://www.markdownguide.org/cheat-sheet).
+
+- Double asterisk for **bold** (`**bold**`), sigle asterisk for *italic* (`*italic*`).
+
+- Hyperlinks: clickable text in square brackets, immediately followed by the path in parentheses. `[text](link)`.
+
+- Images: same as hyperlinks (alternate text in brackets), but add an exclamation mark immediately before the squarebrackets. `![alt_text](path)`.
+
+- Headers: with differing numbers of pound signs (`#`). One is a first-level header or title, all the way down to six.
+
+- Ordered lists: lines preceded by `1. `, `2. `, `3. `.
+
+- Unordered lists: lines preceded by `- `.
+
+### LaTeX
+
+R Markdown has some support for direct LaTeX integration. This can be useful for equations, table formatting
+
+- In-line: surround the LaTeX expression with dollar signs (`$`). To separate the LaTeX text 
+
+- Display/equation mode: surround with double dollar signs (`$$`) or surround the text with backslash-escaped brackets: `\[y = 3x + 7\]`.
+
 ## Object referencing
 
 ### In-line code
+
+While the text vs. code distinction is useful for understanding R Markdown, there are ways of further mixing the two. Say you report the mean of a sample with some code, then discuss it with the sentence "The mean age of our sample was 43.5". If your sample changes, however, "hard-coding" this number in with plain text won't update the number accordingly. Instead, you can add some R code to automatically update the number:
+
+````markdown
+The mean age of our sample was `r '\x60r mean(sample$age)\x60'`.
+````
+
+This line in the Rmd file, when knitted, will replace the code with the output of the evaluated code: `mean(sample$age)`.
+
+### Footnotes
+
+
 
 ### Tables and figures
 
@@ -146,6 +222,22 @@ You can add your abstract directly to the `00-abstract.Rmd` file, and line 23 of
 ### Chunks?
 
 ### Citations
+
+This section covers using BibTeX to format your citations. A BibTeX file contains a series of entries similar to the following, one for each work needed for your bibliography:
+
+```
+@Manual{rcv-package,
+  title = {rcv: Ranked Choice Voting},
+  author = {Jay Lee and Matthew Yancheff},
+  year = {2019},
+  note = {R package version 0.2.2},
+  url = {https://github.com/ds-elections/rcv},
+}
+```
+
+The first field inside the brackets is the citation key (`rcv-package`), which is how you refer to this entry from the document. To cite an entry, insert `@key` or `[@key]` into your writing. The CSL format that you use will define how both the in-line citations and the full references appear.
+
+[More on this](https://bookdown.org/yihui/bookdown/citations.html).
 
 ## Extra fun tidbits
 
@@ -178,6 +270,16 @@ One of the formats you can knit your thesis to is GitBook, which is built on top
 A problem: R people really like underscores to separate words in object names (dots represent something else), but LaTeX doesn't like underscores (they're a special character, so displaying them verbatim is tricky sometimes). It's hard to anticipate every case where this is an issue, but the [`xtable` package](https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf) is a good option for displaying a table that has underscores in column names or data.
 
 One other issue is with code chunk names containing underscores. To reference a table in the text, [you can reference it](https://bookdown.org/yihui/bookdown/tables.html) with the name of the chunk that created it. If the chunk name has an underscore, however, the LaTeX reference created will break because of this. So avoid naming chunks with underscores if you're referencing tables this way.
+
+### Why does my file take so long to knit?
+
+The short answer is that your actual code probably takes a while to run. You can try to save time in a few ways, however.
+
+- Add `cache = TRUE` as an argument to chunks that are taking a long time to run; this will run code and save the results the first time, and quickly call on the saved results in the future. Watch out for issues here if your source data/objects change in some way.
+
+- Rather than knitting the entire book, you can knit just one chapter with the `bookdown::preview_chapter` function.
+
+- If you're doing some heavy analysis that won't change over the course of writing your thesis, you can move this out into a series of R scripts that save their output, then call the output alone in the thesis files. This is also a good option for plots that take a long time to render.
 
 ## Useful links
 
