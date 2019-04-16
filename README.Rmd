@@ -271,6 +271,10 @@ A problem: R people really like underscores to separate words in object names (d
 
 One other issue is with code chunk names containing underscores. To reference a table in the text, [you can reference it](https://bookdown.org/yihui/bookdown/tables.html) with the name of the chunk that created it. If the chunk name has an underscore, however, the LaTeX reference created will break because of this. So avoid naming chunks with underscores if you're referencing tables this way.
 
+### Pound signs
+
+Note that the pound sign (#) does multiple things in the document. In a code chunk or the YAML header, the pound sign will comment out a line so it is not evaluated. In a plain-text section, the pound sign denotes a line as a Markdown header.
+
 ### Why does my file take so long to knit?
 
 The short answer is that your actual code probably takes a while to run. You can try to save time in a few ways, however.

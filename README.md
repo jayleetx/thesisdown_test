@@ -450,6 +450,13 @@ the chunk that created it. If the chunk name has an underscore, however,
 the LaTeX reference created will break because of this. So avoid naming
 chunks with underscores if you’re referencing tables this way.
 
+### Pound signs
+
+Note that the pound sign (\#) does multiple things in the document. In a
+code chunk or the YAML header, the pound sign will comment out a line so
+it is not evaluated. In a plain-text section, the pound sign denotes a
+line as a Markdown header.
+
 ### Why does my file take so long to knit?
 
 The short answer is that your actual code probably takes a while to run.
